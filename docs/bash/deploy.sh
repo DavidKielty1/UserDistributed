@@ -46,8 +46,14 @@ kubectl rollout restart deployment/userdistributed-api -n $NAMESPACE
 echo "7. Getting NGINX Ingress NodePort..."
 NODE_PORT=$(kubectl get svc -n default ingress-nginx-controller -o jsonpath='{.spec.ports[0].nodePort}')
 
+helm upgrade --install prometheus prometheus-community/kube-prometheus-stack \
+  --namespace monitoring --create-namespace \
+  --set prometheus.prometheusSpec.maximumStartupDurationSeconds=600
+
 echo "Deployment complete!"
 echo "You can access your services at:"
-echo "API:      http://localhost:$NODE_PORT/api"
-echo "Grafana:  http://localhost:$NODE_PORT/grafana"
-echo "Loki:     http://localhost:$NODE_PORT/loki"
+echo "API:                http://localhost:$NODE_PORT/api"
+echo "Grafana:            http://localhost:$NODE_PORT/grafana"
+echo "Loki:               http://localhost:$NODE_PORT/loki"
+echo "Prometheus:         http://localhost:$NODE_PORT/prometheus"
+echo "Prometheus-Grafana: http://localhost:$NODE_PORT/prom-grafana"

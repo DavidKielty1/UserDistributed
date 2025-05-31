@@ -20,5 +20,10 @@ kubectl logs -f <userdistributed-api-pods> -n userdistributed
 
 ## Load testing kub
 
-hey -n 100 -c 10 http://localhost:8080/api/userparallel/metrics
+hey -n 1000 -c 20 http://localhost:31442/api/userparallel/metrics
 beaverhall
+
+## kub dashboard for real-time pod UI
+
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.7.0/aio/deploy/recommended.yaml
+kubectl proxy

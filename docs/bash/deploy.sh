@@ -8,14 +8,14 @@ PORT_LOCAL=8080
 PORT_REMOTE=80
 
 echo "1. Building Docker image..."
-docker build -t $IMAGE_NAME .
+docker build -t $IMAGE_NAME -f ../../Dockerfile ../../
 
 echo "2. Applying Kubernetes manifests..."
-kubectl apply -f k8s/namespace.yaml
-kubectl apply -f k8s/sqlserver.yaml
-kubectl apply -f k8s/redis.yaml
-kubectl apply -f k8s/api.yaml
-kubectl apply -f k8s/hpa.yaml
+kubectl apply -f ../../Infra/k8s/namespace.yaml
+kubectl apply -f ../../Infra/k8s/sqlserver.yaml
+kubectl apply -f ../../Infra/k8s/redis.yaml
+kubectl apply -f ../../Infra/k8s/api.yaml
+kubectl apply -f ../../Infra/k8s/hpa.yaml
 
 echo "3. Restarting API deployment..."
 kubectl rollout restart deployment/userdistributed-api -n $NAMESPACE
